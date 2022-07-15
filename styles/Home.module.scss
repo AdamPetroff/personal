@@ -1,0 +1,117 @@
+@mixin centerTranslate($x: 50%, $y: 50%) {
+  position: absolute;
+  top: $y;
+  left: $x;
+  transform: translate(-50%, -50%);
+}
+
+.sunsetScene {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(182.35deg, #7CA6C8 10.31%, rgba(232, 154, 108, 0.58) 26.93%, rgba(255, 205, 104, 0.312659) 69.5%, rgba(227, 112, 105, 0) 98.03%);
+  display: flex;
+  position: relative;
+  overflow: hidden;
+
+  &__title {
+    @include centerTranslate();
+    font-family: 'Inspiration', cursive;
+    font-size: 4rem;
+    margin: auto;
+
+    & > * {
+      background: url("/img/night-sky.webp");
+      text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+      background-clip: text;
+      background-size: contain;
+      -webkit-text-fill-color: transparent;
+      padding-inline: 2rem;
+    }
+
+  }
+
+  &__sun {
+    @include centerTranslate(50%, 35%);
+    mix-blend-mode: overlay;
+    opacity: 0.95;
+    filter: blur(10px);
+    margin: auto;
+    width: max(800px);
+
+
+    & > * {
+      width: 100%;
+    }
+  }
+
+  &__moon {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: flex-end;
+    margin: 2rem 1rem;
+
+    & > * {
+      mix-blend-mode: screen;
+      height: 100%;
+      object-position: right;
+      filter: brightness(1.7);
+    }
+  }
+
+  &__cloud1 {
+    @include centerTranslate(40%, 25%);
+
+    mix-blend-mode: overlay;
+  }
+
+  &__cloud2 {
+    @include centerTranslate(80%, 35%);
+
+    mix-blend-mode: overlay;
+  }
+
+  &__cloud3 {
+    @include centerTranslate(50%, 100%);
+    transform: translate(-50%, -100%);
+
+    mix-blend-mode: hard-light;
+    width: 120%;
+    filter: brightness(1.5);
+
+    & > * {
+      width: 100%;
+    }
+  }
+
+  &__cloud4 {
+    @include centerTranslate(50%, 73%);
+    // transform: translate(-50%, -100%);
+
+    mix-blend-mode: lighten;
+    box-shadow: inset 0px 100px 250px rgba(252, 63, 33, 0.25);
+    filter: blur(5px) brightness(1.1) contrast(1.3);
+    width: 100%;
+
+    & > * {
+      width: 100%;
+    }
+  }
+
+  &__cloud5 {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translate(-50%, -50%) matrix(-1, 0, 0, 1, 0, 0);
+
+    mix-blend-mode: overlay;
+
+    & > * {
+      width: 100%;
+    }
+  }
+}
