@@ -1,20 +1,51 @@
-@mixin centerTranslate($x: 50%, $y: 50%) {
+@mixin centerTranslate($x: 50%, $y: 50%, $transform: "") {
   position: absolute;
-  top: $y;
-  left: $x;
-  transform: translate(-50%, -50%);
+  top: #{$y};
+  left: #{$x};
+  transform: translate(-50%, -50%) #{$transform};
+}
+
+@mixin perspective {
+
+}
+
+.layout {
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  position: relative;
+
+  background: linear-gradient(180deg, #7CA6C8 10.31%, rgba(232, 154, 108, 0.58) 26.93%, rgba(255, 205, 104, 0.314) 69.5%, rgba(227, 112, 105, 0) 98.03%);
+
+  @media (min-width: 769px) {
+    perspective: 10px;
+    perspective-origin: center;
+  }
+
+  & * {
+    transform-style: preserve-3d; 
+  }
 }
 
 .sunsetScene {
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(182.35deg, #7CA6C8 10.31%, rgba(232, 154, 108, 0.58) 26.93%, rgba(255, 205, 104, 0.312659) 69.5%, rgba(227, 112, 105, 0) 98.03%);
   display: flex;
   position: relative;
-  overflow: hidden;
+  // overflow: inherit;
+
+  // scroll-behavior: smooth;
+  // position: relative;
+
+  // @media (min-width: 769px) {
+  //   perspective: 10px;
+  //   perspective-origin: center;
+  // }
 
   &__title {
-    @include centerTranslate();
+    @include centerTranslate(50%, 50%, translateZ(-5px) scale(1.5));
     font-family: 'Inspiration', cursive;
     font-size: 4rem;
     margin: auto;
@@ -31,23 +62,31 @@
   }
 
   &__sun {
-    @include centerTranslate(50%, 35%);
-    mix-blend-mode: overlay;
-    opacity: 0.95;
+    @include centerTranslate(50%, 0%, translateZ(-20px) scale(3)) ;
+    // transform-origin: bottom;
+    // opacity: 0.95;
     filter: blur(10px);
     margin: auto;
     width: max(800px);
-
+    // background: radial-gradient(orange, transparent 400px);
 
     & > * {
       width: 100%;
+      mix-blend-mode: screen;
+
     }
   }
 
   &__moon {
-    position: absolute;
-    top: 0%;
-    left: 0%;
+    // position: absolute;
+    // top: 0%;
+    // left: 0%;
+    transform: translateZ(-10px) scale(2);
+    @include centerTranslate(-60%, -20%, translateZ(-20px) scale(2)) ;
+    
+    // top: -10%;
+    // left: -20%;
+    // transform: translateZ(-9px) scale(1.4) translate(-100%, -100%);
 
     width: 150px;
     height: 150px;
@@ -55,63 +94,157 @@
     justify-content: flex-end;
     margin: 2rem 1rem;
 
+    opacity: 0.8;
+    filter: brightness(3) drop-shadow(0px 0px 10px white);
+
     & > * {
-      mix-blend-mode: screen;
+      // mix-blend-mode: screen;
       height: 100%;
       object-position: right;
-      filter: brightness(1.7);
+      // filter: brightness(1.7);
     }
   }
 
   &__cloud1 {
-    @include centerTranslate(40%, 25%);
+    @include centerTranslate(70%, 9%, scale(0.5) translateZ(-6px)) ;
+    opacity: 0.5;
+    & > * {
+      mix-blend-mode: overlay;
 
-    mix-blend-mode: overlay;
+    }
   }
 
   &__cloud2 {
-    @include centerTranslate(80%, 35%);
+    @include centerTranslate(90%, 35%, scale(1.4) translateZ(-4px));
 
-    mix-blend-mode: overlay;
+    & > * {
+      mix-blend-mode: overlay;
+
+    }
   }
 
   &__cloud3 {
-    @include centerTranslate(50%, 100%);
-    transform: translate(-50%, -100%);
+    @include centerTranslate(50%, 140%);
+    transform: translate(-50%, -100%) scale(1.3) translateZ(-1px);
 
-    mix-blend-mode: hard-light;
     width: 120%;
     filter: brightness(1.5);
 
     & > * {
       width: 100%;
+    mix-blend-mode: hard-light;
     }
   }
 
   &__cloud4 {
-    @include centerTranslate(50%, 73%);
+    @include centerTranslate(50%, 78%, translateZ(-3px) scale(1.3));
     // transform: translate(-50%, -100%);
 
-    mix-blend-mode: lighten;
-    box-shadow: inset 0px 100px 250px rgba(252, 63, 33, 0.25);
-    filter: blur(5px) brightness(1.1) contrast(1.3);
+    filter: blur(5px) brightness(1.1) contrast(1.3) sepia(.3) hue-rotate(-30deg);
     width: 100%;
 
     & > * {
       width: 100%;
+    mix-blend-mode: lighten;
     }
   }
 
   &__cloud5 {
     position: absolute;
-    top: 50%;
-    left: 10%;
-    transform: translate(-50%, -50%) matrix(-1, 0, 0, 1, 0, 0);
-
-    mix-blend-mode: overlay;
+    top: 55%;
+    left: -10%;
+    @include centerTranslate(0%, 50%, matrix(-1, 0, 0, 1, 0, 0) translateZ(-6px) scale(1.6));
 
     & > * {
       width: 100%;
+    mix-blend-mode: overlay;
     }
   }
+}
+
+.cloudScene {
+  width: 100vw;
+  height: 200vh;
+  position: relative;
+
+  &__cloudTransition {
+    display: contents;
+    // display: none;
+
+    & > * {
+      filter: blur(4px) sepia(0.2) hue-rotate(-31deg);
+      position: absolute;
+      transform: translateZ(6px);
+    }
+
+    &__1 {
+      top: 0%;
+      left: 10%;
+    }
+
+    &__2 {
+      top: 10%;
+      left: 15%;
+    }
+
+    &__3 {
+      top: 20%;
+      left: 0%;
+    }
+
+    &__4 {
+      top: 30%;
+      left: 20%;
+    }
+  }
+
+  &__cloud1 {
+    @include centerTranslate(75%, 25%, scale(1.2) translateZ(0px));
+    filter: sepia(0.2) hue-rotate(-20deg);
+  }
+
+  &__cloud1b {
+    @include centerTranslate(25%, 25%, scale(1.2) translateZ(0px));
+    filter: sepia(0.2) hue-rotate(-20deg);
+  }
+
+  &__cloud2 {
+    @include centerTranslate(65%, 45%, scale(2) translateZ(-1px));
+    filter: sepia(0.2) hue-rotate(-20deg);
+
+    & > * {
+      max-width: 800px;
+    }
+  }
+
+  &__cloud3 {
+    @include centerTranslate(50%, 40%, scale(1.3) translateZ(-1px));
+    // filter: sepia(0.2) hue-rotate(-20deg);
+
+    overflow: hidden;
+    height: 400px;
+    width: 100%;
+
+    & > * {
+      width: 100%;
+      bottom: 100%;
+      position: relative;
+    }
+  }
+
+  &__ocean1 {
+    @include centerTranslate(55%, 90%);
+    // position: absolute;
+    // top: 90%;
+  }
+}
+
+.footer {
+  position: absolute;
+  bottom: -25%;
+  left: 10%;
+  font-family: 'Nanum Pen Script', cursive;
+  font-size: 7rem;
+  transform: skewX(15deg) scaleY(0.6);
+  color: brown;
 }
